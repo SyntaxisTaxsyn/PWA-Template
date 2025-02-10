@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>GitHub page PWA template</title>
+  <link rel="canonical" href="https://syntaxistaxsyn.github.io/SD-Calculator/" />
+  <link rel="manifest" href="/SD-Calculator/manifest.webmanifest">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+      body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        canvas {
+            margin-top: 20px;
+            max-width: 100%;
+        }
+        .controls {
+            display: none;
+            margin-top: 10px;
+        }
+        #downloadBtn {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #downloadBtn:hover {
+            background-color: #218838;
+        }
+  </style>
+</head>
+<body>
+ <input type="file" id="imageUpload" accept="image/*">
+    <br><br>
+    <input type="text" id="watermarkText" placeholder="Enter watermark text" value="Amys Art.com">
+    <br><br>
+    <button onclick="addWatermark()">Generate</button>
+    <br><br>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="controls" id="sliders">
+        <label>Color (White to Black): 
+            <input type="range" id="colorSlider" min="0" max="255" value="150">
+        </label>
+        <br><br>
+        <label>Opacity: 
+            <input type="range" id="opacitySlider" min="0" max="1" step="0.05" value="0.4">
+        </label>
+    </div>
+
+    <br>
+    <button id="downloadBtn" onclick="downloadImage()">Download Image</button>
+
+   
+  <script>
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.register (
+          '/WatermarkGenerate/sw.js',
+          {scope: '/WatermarkGenerate/'}
+        )
+      }
+  </script>
+  <script src="js/app.js"></script>
+  <script>
+   let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        let img = new Image();
+        let text = "";
+        let textColor = 150; // Default: Grey
+        let textOpacity = 0.4; // Default opacity
+
+        document.getElementById("imageUpload").addEventListener("change", function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    img.onload = function() {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0); // Show image first
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function addWatermark() {
+            if (!img.src) {
+                alert("Please upload an image first.");
+                return;
+            }
+            text = document.getElementById("watermarkText").value;
+            if (!text) {
+                alert("Please enter watermark text.");
+                return;
+            }
+
+            document.getElementById("sliders").style.display = "block"; // Show sliders
+            document.getElementById("downloadBtn").style.display = "inline-block"; // Show download button
+
+            updateWatermark(); // Initial watermark draw
+
+            // Attach event listeners to sliders
+            document.getElementById("colorSlider").addEventListener("input", updateWatermark);
+            document.getElementById("opacitySlider").addEventListener("input", updateWatermark);
+        }
+
+        function updateWatermark() {
+            textColor = document.getElementById("colorSlider").value;
+            textOpacity = document.getElementById("opacitySlider").value;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+
+            ctx.font = `${canvas.width / 10}px Arial`;
+            ctx.fillStyle = `rgba(${textColor}, ${textColor}, ${textColor}, ${textOpacity})`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(-Math.atan(canvas.height / canvas.width)); // Rotate diagonally
+            ctx.fillText(text, 0, 0);
+            ctx.restore();
+        }
+
+        function downloadImage() {
+            let link = document.createElement("a");
+            link.download = "watermarked_image.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        }
+  </script>
+</body>
+</html>
