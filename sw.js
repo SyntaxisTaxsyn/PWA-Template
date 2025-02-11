@@ -1,12 +1,11 @@
 var GHPATH = '/WatermarkGenerate';
 var APP_PREFIX = 'WatermarkGenerate_';
-var VERSION = 'version_003';
+var VERSION = 'version_004';
 var URLS = [    
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
   `${GHPATH}/css/styles.css`,
-  `${GHPATH}/Img/AppIcon.jpg`,
-  `${GHPATH}/starterSchedule.html`
+  `${GHPATH}/Img/AppIcon.png`
 ]
 
 var CACHE_NAME = APP_PREFIX + VERSION
