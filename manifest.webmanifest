@@ -9,8 +9,8 @@
   "display": "standalone", 
   "icons": [
       {
-        "src": "/WatermarkGenerate/Img/AppIcon.jpg",
-        "type": "image/jpeg",
+        "src": "/WatermarkGenerate/Img/AppIcon.png",
+        "type": "image/png",
         "sizes": "1165x1319"
       }
   ]
