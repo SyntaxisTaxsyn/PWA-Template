@@ -1,0 +1,17 @@
+{
+  "name": "Watermark Generator",
+  "short_name": "Watermark Gen",
+  "description": "Watermark Generator PWA",
+  "scope": "/WatermarkGenerate/",
+  "start_url": "/WatermarkGenerate/",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "standalone", 
+  "icons": [
+      {
+        "src": "/WatermarkGeneratr/img/AppIcon.wbpk",
+        "type": "image/jpeg",
+        "sizes": "1165x1319"
+      }
+  ]
+}
