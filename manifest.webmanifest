@@ -9,7 +9,7 @@
   "display": "standalone", 
   "icons": [
       {
-        "src": "/WatermarkGeneratr/img/AppIcon.webp",
+        "src": "/WatermarkGeneratr/Img/AppIcon.jpeg",
         "type": "image/jpeg",
         "sizes": "1165x1319"
       }
