@@ -1,6 +1,6 @@
-var GHPATH = '/WatermarkGenerate';
-var APP_PREFIX = 'WatermarkGenerate_';
-var VERSION = 'version_004';
+var GHPATH = '/__REPO_NAME__';
+var APP_PREFIX = '__REPO_NAME___';
+var VERSION = 'version_001';
 var URLS = [    
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
